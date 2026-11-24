@@ -60,7 +60,7 @@ def extract_mesh(dataset, pipe, iteration, num_cluster=1):
         depth_list.append(depth[0].cpu().numpy())
 
     torch.cuda.empty_cache()
-    voxel_size = 0.002
+    voxel_size = 0.01
     o3d_device = o3d.core.Device("CPU:0")
     vbg = o3d.t.geometry.VoxelBlockGrid(
         attr_names=("tsdf", "weight", "color"),
@@ -68,7 +68,7 @@ def extract_mesh(dataset, pipe, iteration, num_cluster=1):
         attr_channels=((1), (1), (3)),
         voxel_size=voxel_size,
         block_resolution=16,
-        block_count=50000,
+        block_count=200000,
         device=o3d_device,
     )
     for color, depth, viewpoint_cam in zip(color_list, depth_list, viewpoint_cam_list):
